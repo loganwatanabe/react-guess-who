@@ -12,23 +12,38 @@ function FaceCard(props){
 	// this useEffect will run once
 	// similar to componentDidMount()
 	useEffect(() => {
-		// console.log(props)
   	})
 
-  	const flipCard = (event)=>{
-  		setActive(!active)
+  	const cardClick = (event)=>{
+  		if(props.chosen && props.onClick){
+  			props.onClick()
+  		}else{
+  			setActive(!active)
+  		}
+  	}
+
+  	const displayImage = ()=>{
+  		if(props.data && props.data.url){
+  			return(<img src={props.data.url} alt={props.data.name} height="120" />)
+  		}else{
+  			return(
+  				<div style={{height: 120, width: 120, fontSize: 24}}>
+  					Draw a Card
+  				</div>
+  			)
+  		}
   	}
 
 
   return (
 
-	<Paper>
-	  	<Card style={{width: 240, maxHeight: 240}} disabled={!active} raised={active}>
-	      <CardActionArea onClick={flipCard}>
-	      	<img src={props.data.url} alt={props.data.name} height="120" />
+	<Paper style={{margin: "4px auto 4px"}}>
+	  	<Card style={{width: 240, maxHeight: 240, textAlign: 'center'}} disabled={!active} raised={active}>
+	      <CardActionArea onClick={cardClick}>
+	      	{displayImage()}
 	        <CardContent>
 	        	<Typography gutterBottom variant="h5" component="h2">
-	        		{props.data.name}
+	        		{props.data ? props.data.name : "???"}
 	        	</Typography>
 	        </CardContent>
 	        {active ? "" : <div style={{height: '100%', width: '100%', position: 'absolute', top: 0, left: 0, backgroundColor: 'black', opacity: '75%'}}></div>}

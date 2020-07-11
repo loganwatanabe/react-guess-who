@@ -13,6 +13,9 @@ function Boards(props) {
 			<Route exact path={path+'/new'}>
 				<h3>new</h3>
 			</Route>
+			<Route exact path={path+'/:id/edit'}>
+				<h3>edit</h3>
+			</Route>
 			<Route path={path+'/:id'}>
 				<Board/>
 			</Route>

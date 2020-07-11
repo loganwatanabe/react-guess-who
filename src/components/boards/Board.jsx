@@ -46,7 +46,7 @@ function Board(props){
 
   	const cardClick = ()=>{
   		if(peek == 0){
-  			setPeek(-130)
+  			setPeek(-125)
   		}else{
   			setPeek(0)
   		}
@@ -66,18 +66,21 @@ function Board(props){
 
   return (
   	<React.Fragment>
-  	<Grid container spacing={0} >
-  		
-  		{generateCards(cards)}
-  		
+  	<Grid container spacing={2} >
+      <Grid item xs={12}>
+        <h1>{name}</h1>
+      </Grid>
+      <Grid item xs={12} container spacing={2}>
+  		  {generateCards(cards)}
+  		</Grid>
   	</Grid>
-  	<Toolbar/>
+  	<Toolbar style={{marginTop: 10}}/>
   	<AppBar position="fixed" color="primary" style={{top: "auto", bottom: 0}}>
         <Toolbar>
           <Fab variant="extended" color="secondary" aria-label="add" onClick={drawCard} style={{marginLeft: "auto", marginRight: 240}}>
             New Card
           </Fab>
-          <div style={{position: "absolute", right: 0, bottom: peek, transition: "bottom 0.5s linear"}}>
+          <div style={{position: "absolute", right: 0, bottom: peek, transition: "bottom 0.5s linear", marginRight: 6, width:160}}>
             {displayCard(card)}
           </div>
         </Toolbar>

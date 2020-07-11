@@ -14,10 +14,10 @@ function App() {
       <Header/>
       <Router>
         <Switch>
-          <Route path="/board">
+          <Route path="/boards">
             <Boards/>
           </Route>
-          <Route path="/">
+          <Route exact path="/">
             <Homepage/>
           </Route>
         </Switch>

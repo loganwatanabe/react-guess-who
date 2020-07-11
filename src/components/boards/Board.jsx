@@ -1,22 +1,29 @@
 import React, {useState, useEffect} from 'react';
-import {Link} from 'react-router-dom';
+import {Link, useParams} from 'react-router-dom';
 import {Grid, AppBar, Toolbar, IconButton, Fab} from '@material-ui/core';
-import superheroes from './examples/superhero.json';
+// import superheroes from './examples/superhero.json';
 import FaceCard from './FaceCard';
+import {getBoard} from '../api/api'
 
 function Board(props){
 
 	// const [error, setError] = useState(null);
 	// const [isLoaded, setIsLoaded] = useState(false);
-	const [card, setCard] = useState();
+  const { id } = useParams();
+  const [card, setCard] = useState();
+  const [name, setName] = useState("");
+	const [cards, setCards] = useState([]);
 	const [peek, setPeek] = useState(-130);
 
 	// Note: the empty deps array [] means
 	// this useEffect will run once
 	// similar to componentDidMount()
 	useEffect(() => {
-		console.log("render")
-  	})
+    getBoard(id, data => {
+      setName(data[0].name)
+      setCards(data[0].cards)
+    })
+  	},[])
 
   	const generateCards = (data)=>{
   		if(data){
@@ -27,7 +34,7 @@ function Board(props){
   	}
 
   	const drawCard = ()=>{
-  		let data = superheroes[0].cards
+  		let data = cards
 		if(data){
   			let item = data[Math.floor(Math.random() * data.length)];
   			setCard(item)
@@ -61,7 +68,7 @@ function Board(props){
   	<React.Fragment>
   	<Grid container spacing={0} >
   		
-  		{generateCards(superheroes[0].cards)}
+  		{generateCards(cards)}
   		
   	</Grid>
   	<Toolbar/>

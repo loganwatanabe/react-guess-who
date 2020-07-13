@@ -4,8 +4,8 @@ import {Grid, TextField, Button} from '@material-ui/core';
 import superheroes from './examples/superhero.json';
 import FaceCardInput from './FaceCardInput';
 import FaceCard from './FaceCard';
-import {createBoard, getBoard, updateBoard} from '../api/api'
-import GoogleLogin from 'react-google-login';
+import {createBoard, getBoard, updateBoard, deleteBoard} from '../api/api'
+import {GoogleLogin, GoogleLogout} from 'react-google-login';
 
 function NewBoard(props){
   const history = useHistory()
@@ -14,6 +14,7 @@ function NewBoard(props){
   // const [isLoaded, setIsLoaded] = useState(false);
   const [name, setName] = useState("");
   const [cards, setCards] = useState([]);
+  const [jwt, setJwt] = useState(null);
   const { id } = useParams();
 
   // Note: the empty deps array [] means
@@ -31,6 +32,14 @@ function NewBoard(props){
 
   const responseGoogle = (response) => {
     console.log(response);
+    //response.googleId: "106645276822529263714"
+    //let jwt_token = response.tokenObj.id_token
+    setJwt(response.tokenObj.id_token)
+  }
+
+  const logout = (response) => {
+    setJwt(null)
+    console.log("logged out")
   }
 
   const fieldChange = (field, event)=>{
@@ -66,13 +75,26 @@ function NewBoard(props){
   const saveBoard = () => {
     if(props.new){
       let data = {name: name, cards: cards}
-      createBoard(data, (res)=>{
+      createBoard(data, jwt, (res)=>{
         history.push("/boards/"+res.data.document_id+"/edit")
       })
     }else if(props.edit && id){
       let data = {name: name, cards: cards}
-      updateBoard(id, data, (res)=>{
+      updateBoard(id, data, jwt, (res)=>{
         history.push("/boards/"+id+"/edit")
+      })
+    }else{
+      console.log("ERROR")
+      alert("ERROR")
+    }
+  }
+
+  const deleteB = () => {
+    if(props.edit && id){
+      deleteBoard(id, jwt, (res)=>{
+        console.log("successful delete")
+        console.log(res)
+        history.push("/")
       })
     }else{
       console.log("ERROR")
@@ -83,14 +105,20 @@ function NewBoard(props){
   return (
     <Grid container spacing={0} >
       <Grid item xs={12} style={{textAlign: "center", paddingTop: 16}}>
+      { jwt ?
+        <GoogleLogout
+        clientId="995311730381-fslk423mb22uc1algiv24pb8nchfh9d0.apps.googleusercontent.com"
+        buttonText="Logout"
+        onLogoutSuccess={logout}
+        /> :
         <GoogleLogin
           clientId="995311730381-fslk423mb22uc1algiv24pb8nchfh9d0.apps.googleusercontent.com"
           buttonText="Login"
           onSuccess={responseGoogle}
           onFailure={responseGoogle}
           cookiePolicy={'single_host_origin'}
-          isSignedIn={true}
         />
+      }
       </Grid>
       <Grid item xs={12} style={{textAlign: "center", paddingTop: 16}}>
         <TextField label="Board Name" variant="outlined" value={name} onChange={(e)=>fieldChange("name",e)}/>
@@ -100,7 +128,10 @@ function NewBoard(props){
         <FaceCard data={{name: "+ Add Card"}} onClick={addCard}/>
       </Grid>
       <Grid item xs={12} style={{textAlign: "center"}}>
-        <Button onClick={saveBoard} variant="contained" color="secondary">Save Board</Button>
+        <Button onClick={saveBoard} variant="contained" color="primary">Save Board</Button>
+      </Grid>
+      <Grid item xs={12} style={{textAlign: "center"}}>
+        {props.edit ? <Button onClick={deleteB} variant="contained" color="secondary">DELETE Board</Button> : ""}
       </Grid>
     </Grid>
   );

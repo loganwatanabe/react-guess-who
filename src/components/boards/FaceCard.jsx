@@ -15,7 +15,7 @@ function FaceCard(props){
   	})
 
   	const cardClick = (event)=>{
-  		if(props.chosen && props.onClick){
+  		if(props.onClick){
   			props.onClick()
   		}else{
   			setActive(!active)
@@ -28,7 +28,7 @@ function FaceCard(props){
   		}else{
   			return(
   				<div style={{height: 240, width: "100%", fontSize: 24}}>
-  					Draw a Card
+  					{props.data.name}
   				</div>
   			)
   		}
@@ -38,7 +38,7 @@ function FaceCard(props){
       if(props.chosen){
         return(children)
       }else{
-        return(<Grid item xs={6} sm={3} m={2}>{children}</Grid>)
+        return(<Grid item xs={6} sm={3} md={2}>{children}</Grid>)
       }
     }
 

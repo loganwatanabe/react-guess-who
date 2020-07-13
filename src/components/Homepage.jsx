@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import {Link} from 'react-router-dom';
 import {homepageBoards} from './api/api'
-import {List, ListItem, ListItemText} from '@material-ui/core'
+import {List, ListItem, ListItemText, Button} from '@material-ui/core'
 
 function Homepage() {
 
@@ -34,6 +34,11 @@ function Homepage() {
   return (
     <div>
     	<List>
+	  		<ListItem>
+				<Link to={'/boards/new'}>
+					<Button>Create New Board</Button>
+				</Link>
+			</ListItem>
     		{generateLinks(boards)}
     	</List>
     </div>

@@ -1,20 +1,20 @@
 import React from 'react';
 import Board from './Board';
+import InputBoard from './InputBoard';
 import { Switch, Route, useRouteMatch} from "react-router-dom";
 
 function Boards(props) {
 
 	let { path, url } = useRouteMatch();
 
-	console.log(path)
 
 	return (
 		<Switch>
 			<Route exact path={path+'/new'}>
-				<h3>new</h3>
+				<InputBoard new/>
 			</Route>
 			<Route exact path={path+'/:id/edit'}>
-				<h3>edit</h3>
+				<InputBoard edit/>
 			</Route>
 			<Route path={path+'/:id'}>
 				<Board/>

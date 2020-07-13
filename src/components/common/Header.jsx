@@ -1,9 +1,9 @@
 import React from 'react';
-import {AppBar, Toolbar, IconButton, Typography, Drawer} from '@material-ui/core'
+import {AppBar, Toolbar, IconButton, Typography, Drawer, List, ListItem, ListItemText} from '@material-ui/core'
 import {Menu as MenuIcon} from '@material-ui/icons'
+import {Link, withRouter} from "react-router-dom"
 
-
-function Header(){
+function Header(props){
 
 	const [state, setState] = React.useState({
 	    top: false,
@@ -20,6 +20,7 @@ function Header(){
     setState({ ...state, [anchor]: open });
   };
 
+
 	return(
 		<React.Fragment>
 			<AppBar position="static">
@@ -28,15 +29,27 @@ function Header(){
 			      <MenuIcon />
 			    </IconButton>
 			    <Typography variant="h6">
-			      Header
+			    	<Link to={"/"}>
+			      		Home
+			      	</Link>
 			    </Typography>
 			  </Toolbar>
 			</AppBar>
-			<Drawer anchor={'left'} open={state['left']} onClose={toggleDrawer('left', false)}>
-		      hiiiiiiiiiiiiiii
+
+			<Drawer anchor={'left'} open={state['left']} onClose={toggleDrawer('left', false)} style={{width: "50%", maxWidth:280}}>
+				<div style={{width: 280}}>
+					<List>
+						<Link to={props.location.pathname+'/edit'}>
+				    		<ListItem button>
+								<ListItemText primary="Edit" />
+							</ListItem>
+						</Link>
+					</List>
+				</div>
 		    </Drawer>
+
 		</React.Fragment>
 	)
 }
 
-export default Header;
+export default withRouter(Header);

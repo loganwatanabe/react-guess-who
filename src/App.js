@@ -11,8 +11,8 @@ import Homepage from './components/Homepage';
 function App() {
   return (
     <div>
-      <Header/>
       <Router>
+        <Header/>
         <Switch>
           <Route path="/boards">
             <Boards/>

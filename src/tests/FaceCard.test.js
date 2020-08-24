@@ -1,6 +1,6 @@
 // Link.react.test.js
 import React from 'react';
-import FaceCard from './FaceCard';
+import FaceCard from '../components/boards/FaceCard';
 import renderer from 'react-test-renderer';
 
 test('Link changes the class when hovered', () => {
@@ -21,4 +21,8 @@ test('Link changes the class when hovered', () => {
   // re-rendering
   tree = component.toJSON();
   expect(tree).toMatchSnapshot();
+
+
+
+  //test functions in FaceCard
 });

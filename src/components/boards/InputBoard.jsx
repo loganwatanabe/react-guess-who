@@ -91,11 +91,16 @@ function NewBoard(props){
 
   const deleteB = () => {
     if(props.edit && id){
-      deleteBoard(id, jwt, (res)=>{
-        console.log("successful delete")
-        console.log(res)
-        history.push("/")
-      })
+      // let confirmation = confirm("Proceed with delete?")
+      let confirmation = true
+      if(confirmation){
+        deleteBoard(id, jwt, (res)=>{
+          console.log("successful delete")
+          console.log(res)
+          history.push("/")
+        })
+      }
+      //if false, do nothing
     }else{
       console.log("ERROR")
       alert("ERROR")

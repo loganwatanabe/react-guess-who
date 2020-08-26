@@ -1,9 +1,9 @@
 import React, {useState, useEffect} from 'react';
 import {Link, useParams} from 'react-router-dom';
 import {Grid, AppBar, Toolbar, IconButton, Fab} from '@material-ui/core';
-import superheroes from './examples/superhero.json';
 import FaceCard from './FaceCard';
 import {getBoard} from '../api/api'
+import {getABoard} from '../api/api-server'
 
 function Board(props){
 
@@ -19,15 +19,11 @@ function Board(props){
 	// this useEffect will run once
 	// similar to componentDidMount()
 	useEffect(() => {
-    if(id == "example"){
-      setName(superheroes[0].name)
-      setCards(superheroes[0].cards)
-    }else{
-      getBoard(id, data => {
+      getABoard(id, data => {
         setName(data[0].name)
         setCards(data[0].cards)
       })
-    }
+
   	},[])
 
   	const generateCards = (data)=>{

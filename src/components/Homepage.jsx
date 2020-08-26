@@ -2,6 +2,8 @@ import React, {useState, useEffect} from 'react';
 import {Link} from 'react-router-dom';
 import {homepageBoards} from './api/api'
 import {List, ListItem, ListItemText, Button} from '@material-ui/core'
+import {homeBoards} from './api/api-server'
+
 
 function Homepage() {
 
@@ -11,7 +13,8 @@ function Homepage() {
 	// this useEffect will run once
 	// similar to componentDidMount()
 	useEffect(() => {
-		homepageBoards(data => {
+		homeBoards(data => {
+			console.log(data)
 			setBoards(data)
 		})
   	}, [])
@@ -22,7 +25,7 @@ function Homepage() {
   		}
   		return boardsArray.map(board => {
   			return(
-  				<ListItem>
+  				<ListItem key={board.document_id}>
 					<Link to={'/boards/'+board.document_id}>
 					  <ListItemText primary={board.name} />
 					</Link>

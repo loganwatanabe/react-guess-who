@@ -1,5 +1,7 @@
+import React from 'react';
 import firebase from 'firebase';
 import "firebase/firestore";
+import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 
 
 const firebaseConfig = {
@@ -13,12 +15,49 @@ const firebaseConfig = {
   measurementId: "G-J2XX384WW3"
 };
 
+
+
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 
+const uiConfig = {
+	//autoUpgradeAnonymousUsers
+
+	//callbacks
+
+	//credentialHelper
+
+	//queryParameterForSignInSuccessUrl
+
+	//queryParameterForSignInSuccessUrl
+
+	//queryParameterForWidgetMode
+
+	// Popup signin flow rather than redirect flow.
+	signInFlow: 'popup',
+
+	//immediateFederatedRedirect
+
+	//tosUrl
+
+	//privacyPolicyUrl
+
+	// Redirect to /signedIn after sign in is successful. Alternatively you can provide a callbacks.signInSuccess function.
+	signInSuccessUrl: '/signedIn',
+	// We will display Google and Facebook as auth providers.
+	signInOptions: [
+		firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+		firebase.auth.FacebookAuthProvider.PROVIDER_ID
+	]
+};
+
+
+
 let db = firebase.firestore()
+
+let auth = <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()}/>
 
 
 export default {
-  firebase, db
+  firebase, db, auth
 }

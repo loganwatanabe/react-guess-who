@@ -1,0 +1,34 @@
+.giphyComponent{
+	width: 100% !important;
+}
+
+.es_listWrapper__4792f > div > div {
+	margin: auto;
+}
+
+.PoweredByGiphy_poweredByGiphy__1MuEY > img{
+	margin: auto;
+}
+
+.giphyForm{
+	margin: 12px auto;
+	width: 80%;
+	max-width: 300px;
+	height: 40px;
+}
+
+.giphyForm > input {
+	height: 100%;
+}
+
+.textFieldInput{
+	width:200px;
+}
+
+.MuiGridListTile-imgFullHeight{
+	height: auto !important;
+}
+
+.MuiGridListTile-tile:hover{
+	cursor: pointer;
+}

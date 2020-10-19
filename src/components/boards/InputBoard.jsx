@@ -5,7 +5,11 @@ import superheroes from './examples/superhero.json';
 import FaceCardInput from './FaceCardInput';
 import FaceCard from './FaceCard';
 import {createBoard, getBoard, updateBoard, deleteBoard} from '../api/api'
-import {GoogleLogin, GoogleLogout} from 'react-google-login';
+
+
+
+import firebase from '../../firebase/index'
+import {createABoard, getABoard, updateABoard, deleteABoard} from '../api/api-server'
 
 function NewBoard(props){
   const history = useHistory()
@@ -14,7 +18,6 @@ function NewBoard(props){
   // const [isLoaded, setIsLoaded] = useState(false);
   const [name, setName] = useState("");
   const [cards, setCards] = useState([]);
-  const [jwt, setJwt] = useState(null);
   const { id } = useParams();
 
   // Note: the empty deps array [] means
@@ -22,7 +25,7 @@ function NewBoard(props){
   // similar to componentDidMount()
   useEffect(() => {
     if(props.edit){
-      getBoard(id, data => {
+      getABoard(id, data => {
         setName(data[0].name)
         setCards(data[0].cards)
       })
@@ -30,17 +33,6 @@ function NewBoard(props){
   },[])
 
 
-  const responseGoogle = (response) => {
-    console.log(response);
-    //response.googleId: "106645276822529263714"
-    //let jwt_token = response.tokenObj.id_token
-    setJwt(response.tokenObj.id_token)
-  }
-
-  const logout = (response) => {
-    setJwt(null)
-    console.log("logged out")
-  }
 
   const fieldChange = (field, event)=>{
     if(field=="name"){
@@ -48,9 +40,15 @@ function NewBoard(props){
     }
   }
 
+  const deleteCard = (index)=>{
+    let updatedCards = [...cards]
+    updatedCards.splice(index, 1)
+    setCards(updatedCards)
+  }
+
   const generateCards = (data)=>{
     if(data){
-      return(data.map((val, index)=>{return(<FaceCardInput data={val} index={index} key={index} onChange={cardInput}/>)}))
+      return(data.map((val, index)=>{return(<FaceCardInput data={val} index={index} key={index} onChange={cardInput} onDelete={deleteCard}/>)}))
     }else{
       return("no data")
     }
@@ -73,14 +71,20 @@ function NewBoard(props){
   }
 
   const saveBoard = () => {
+    let data = {name: name, cards: cards}
+
     if(props.new){
-      let data = {name: name, cards: cards}
-      createBoard(data, jwt, (res)=>{
-        history.push("/boards/"+res.data.document_id+"/edit")
+      createABoard(data, (res)=>{
+        if(res.id){
+          history.push("/boards/"+res.id)
+        }else{
+          console.log("ERRORERRORERROR")
+        }
       })
+
     }else if(props.edit && id){
-      let data = {name: name, cards: cards}
-      updateBoard(id, data, jwt, (res)=>{
+      updateABoard(id, data, (res)=>{
+        console.log(res)
         history.push("/boards/"+id+"/edit")
       })
     }else{
@@ -94,7 +98,7 @@ function NewBoard(props){
       // let confirmation = confirm("Proceed with delete?")
       let confirmation = true
       if(confirmation){
-        deleteBoard(id, jwt, (res)=>{
+        deleteABoard(id, (res)=>{
           console.log("successful delete")
           console.log(res)
           history.push("/")
@@ -110,25 +114,9 @@ function NewBoard(props){
   return (
     <Grid container spacing={0} >
       <Grid item xs={12} style={{textAlign: "center", paddingTop: 16}}>
-      { jwt ?
-        <GoogleLogout
-        clientId="995311730381-fslk423mb22uc1algiv24pb8nchfh9d0.apps.googleusercontent.com"
-        buttonText="Logout"
-        onLogoutSuccess={logout}
-        /> :
-        <GoogleLogin
-          clientId="995311730381-fslk423mb22uc1algiv24pb8nchfh9d0.apps.googleusercontent.com"
-          buttonText="Login"
-          onSuccess={responseGoogle}
-          onFailure={responseGoogle}
-          cookiePolicy={'single_host_origin'}
-        />
-      }
-      </Grid>
-      <Grid item xs={12} style={{textAlign: "center", paddingTop: 16}}>
         <TextField label="Board Name" variant="outlined" value={name} onChange={(e)=>fieldChange("name",e)}/>
       </Grid>
-      <Grid item xs={12} container spacing={2} style={{margin: 0}}>
+      <Grid item xs={12} container spacing={4} style={{margin: 0}}>
         {generateCards(cards)}
         <FaceCard data={{name: "+ Add Card"}} onClick={addCard}/>
       </Grid>

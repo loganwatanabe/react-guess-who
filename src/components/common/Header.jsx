@@ -30,7 +30,7 @@ function Header(props){
 			    </IconButton>
 			    <Typography variant="h6">
 			    	<Link to={"/"}>
-			      		Home
+			      		GuessWhom
 			      	</Link>
 			    </Typography>
 			  </Toolbar>

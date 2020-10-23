@@ -28,7 +28,7 @@ function FaceCardInput(props){
         )
 
       }else{
-        return(<div style={{height: 120, width: 120, backgroundColor: "grey", marginLeft: "auto", marginRight: "auto"}} />)
+        return(<div style={{height: "100%", width: "100%", backgroundColor: "grey", marginLeft: "auto", marginRight: "auto"}} />)
       }
     }
 

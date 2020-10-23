@@ -24,12 +24,11 @@ function FaceCard(props){
 
   	const displayImage = ()=>{
   		if(props.data && props.data.url){
-  			return(<img src={props.data.url} alt={props.data.name} height="120" />)
+  			return(<img src={props.data.url} alt={props.data.name}
+          style={{width:"100%", height:"100%", objectFit:"cover"}}/>)
   		}else{
   			return(
-  				<div style={{height: 240, width: "100%", fontSize: 24}}>
-  					{props.data.name}
-  				</div>
+  		    <div style={{height: "100%", width: "100%", backgroundColor: "grey", marginLeft: "auto", marginRight: "auto"}} />
   			)
   		}
   	}
@@ -38,17 +37,18 @@ function FaceCard(props){
       if(props.chosen){
         return(children)
       }else{
-        return(<Grid item xs={6} sm={3} md={2}>{children}</Grid>)
+        return(<Grid item xs={6} sm={4} md={2} style={{minHeight: "360px"}}>{children}</Grid>)
       }
     }
 
-
   return (
     <GridChecker>
-	  	<Card style={{width: "100%", height: "100%", maxHeight: 240, textAlign: 'center'}} disabled={!active} raised={active}>
-	      <CardActionArea onClick={cardClick}>
-	      	{displayImage()}
-	        <CardContent>
+	  	<Card style={{width: "100%", height: "100%", textAlign: 'center'}} disabled={!active} raised={active}>
+	      <CardActionArea style={{height: "100%"}} onClick={cardClick}>
+          <div style={{height: "90%", width: "100%", margin: "auto", overflow: "hidden"}}>
+            {displayImage()}
+          </div>
+	        <CardContent style={{height:"10%", padding: "0px 6px"}}>
 	        	<Typography gutterBottom variant="h5" component="h2">
 	        		{props.data ? props.data.name : "???"}
 	        	</Typography>

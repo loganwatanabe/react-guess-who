@@ -10,6 +10,7 @@ import {createBoard, getBoard, updateBoard, deleteBoard} from '../api/api'
 
 import firebase from '../../firebase/index'
 import {createABoard, getABoard, updateABoard, deleteABoard} from '../api/api-server'
+import addcard from './input/addcard.png'
 
 function NewBoard(props){
   const history = useHistory()
@@ -118,12 +119,12 @@ function NewBoard(props){
       </Grid>
       <Grid item xs={12} container spacing={4} style={{margin: 0}}>
         {generateCards(cards)}
-        <FaceCard data={{name: "+ Add Card"}} onClick={addCard}/>
+        <FaceCard data={{url: addcard}} onClick={addCard}/>
       </Grid>
-      <Grid item xs={12} style={{textAlign: "center"}}>
+      <Grid item xs={12} style={{textAlign: "center", marginTop:"24px", marginBottom:"24px"}}>
         <Button onClick={saveBoard} variant="contained" color="primary">Save Board</Button>
       </Grid>
-      <Grid item xs={12} style={{textAlign: "center"}}>
+      <Grid item xs={12} style={{textAlign: "center", marginTop:"24px", marginBottom:"24px"}}>
         {props.edit ? <Button onClick={deleteB} variant="contained" color="secondary">DELETE Board</Button> : ""}
       </Grid>
     </Grid>

@@ -27,23 +27,23 @@ function Homepage() {
   		// let user = firebase.firebase.auth().currentUser;
   		let user = firebase.getCurrentUser();
       console.log(user)
-  		if(user){
-        getUsersBoards(data => {
-          console.log("users")
-          console.log(data)
-        })
-  			return(
-  				<div>
-  					YOU'RE SIGNED IN
-  					<br/>
-  					{user.uid}
-  					<br/>
-  					<Button onClick={logout}>LOGOUT</Button>
-  				</div>
-  			)
-  		}else{
-  			return firebase.signin
-  		}
+  		// if(user){
+    //     getUsersBoards(data => {
+    //       console.log("users")
+    //       console.log(data)
+    //     })
+  		// 	return(
+  		// 		<div>
+  		// 			YOU'RE SIGNED IN
+  		// 			<br/>
+  		// 			{user.uid}
+  		// 			<br/>
+  		// 			<Button onClick={logout}>LOGOUT</Button>
+  		// 		</div>
+  		// 	)
+  		// }else{
+  		// 	return firebase.signin
+  		// }
   	}
 
   	const logout = () => {
@@ -68,7 +68,7 @@ function Homepage() {
   return (
     <div>
       EMULATOR
-    	{checkAuth()}
+
     	<List>
 	  		<ListItem>
 				<Link to={'/boards/new'}>

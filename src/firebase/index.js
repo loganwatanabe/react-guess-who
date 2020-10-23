@@ -126,8 +126,20 @@ let signout = function(){
 	}); 
 }
 
+let checkAuth = function(setUser){
+	return firebase.auth().onAuthStateChanged((uzer) => { // detaching the listener
+        if (uzer) {
+            // ...your code to handle authenticated users.
+          setUser(uzer)
+        } else {
+            // No user is signed in...code to handle unauthenticated users.
+            console.log("no uzer")
+        }
+    });
+}
+
 let getCurrentUser = function(){ return firebase.auth().currentUser }
 
 export default {
-  firebase, db, signin, getCurrentUser, signout
+  firebase, db, signin, getCurrentUser, signout, checkAuth
 }

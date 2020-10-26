@@ -1,11 +1,13 @@
 import React, {useState, useEffect} from 'react';
 import {AppBar, Toolbar, IconButton, Typography, Drawer, List, ListItem, ListItemText} from '@material-ui/core'
 import {Menu as MenuIcon, AccountCircle} from '@material-ui/icons'
-import {Link, withRouter} from "react-router-dom"
+import {Link, withRouter, useHistory} from "react-router-dom"
 
 import firebase from '../../firebase/index'
 
 function Header(props){
+
+	const history=useHistory()
 
 	const [state, setState] = useState({
 	    top: false,
@@ -28,6 +30,7 @@ function Header(props){
 
 
 	const toggleDrawer = (anchor, open) => (event) => {
+	console.log("close menu")
     if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
       return;
     }
@@ -61,6 +64,15 @@ function Header(props){
   		}
   	}
 
+  	const logout = () => {
+  		// firebase.signout(()=>{
+  		// 	history.push('/')
+  		// 	toggleDrawer('right',false)
+  		// })
+  		console.log("test1")
+  		setState({ ...state, ['right']: false });
+  	}
+
   	const leftDrawerContent = () => {
   			return(
   				<List>
@@ -77,9 +89,24 @@ function Header(props){
 
   	  	if(props.user){
   			return(
-  				<div>
-  					signed in
-  				</div>
+  				<List>
+					<Link to={'/myboards'}>
+			    		<ListItem button>
+							<ListItemText primary="My Boards" />
+						</ListItem>
+					</Link>
+					<Link to={'/myaccount'}>
+			    		<ListItem button>
+							<ListItemText primary="My Account" />
+						</ListItem>
+					</Link>
+					<ListItem/>
+					<Link>
+			    		<ListItem button onClick={logout}>
+							<ListItemText primary="LOGOUT" />
+						</ListItem>
+					</Link>
+				</List>
   			)
   		}else{
   			console.log("not logged in")

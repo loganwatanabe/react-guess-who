@@ -2,6 +2,7 @@ import React from 'react';
 import firebase from 'firebase';
 import "firebase/firestore";
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
+import {useHistory} from "react-router-dom";
 
 
 
@@ -116,13 +117,15 @@ const uiConfig = {
 // });
 
 let signin = <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()}/>
-let signout = function(){
+let signout = function(callback){
 	firebase.auth().signOut().then(function() {
 		// Sign-out successful.
 		console.log("logged out")
+		callback()
 	}, function(error) {
 		// An error happened.
 		console.log("error in logging out")
+
 	}); 
 }
 

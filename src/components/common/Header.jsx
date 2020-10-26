@@ -65,12 +65,10 @@ function Header(props){
   	}
 
   	const logout = () => {
-  		// firebase.signout(()=>{
-  		// 	history.push('/')
-  		// 	toggleDrawer('right',false)
-  		// })
-  		console.log("test1")
-  		setState({ ...state, ['right']: false });
+  		firebase.signout(()=>{
+  			setState({ ...state, ['right']: false });
+  			history.push('/')
+  		})
   	}
 
   	const leftDrawerContent = () => {

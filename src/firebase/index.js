@@ -105,6 +105,9 @@ const uiConfig = {
 
 // let db = firebase.firestore()
 
+let onAuthStateChanged = firebase.auth().onAuthStateChanged
+
+
 // firebase.auth().onAuthStateChanged(function(user) {
 //   if (user) {
 //     // User is signed in.
@@ -135,6 +138,7 @@ let checkAuth = function(setUser){
             // ...your code to handle authenticated users.
           setUser(uzer)
         } else {
+        	setUser(null)
             // No user is signed in...code to handle unauthenticated users.
             console.log("no uzer")
         }

@@ -11,6 +11,7 @@ import {createBoard, getBoard, updateBoard, deleteBoard} from '../api/api'
 import firebase from '../../firebase/index'
 import {createABoard, getABoard, updateABoard, deleteABoard} from '../api/api-server'
 import addcard from './input/addcard.png'
+import DeleteAlert from './input/DeleteAlert'
 
 function NewBoard(props){
   const history = useHistory()
@@ -20,6 +21,7 @@ function NewBoard(props){
   const [name, setName] = useState("");
   const [cards, setCards] = useState([]);
   const { id } = useParams();
+  const [deleteAlert, setDeleteAlert] = useState(false)
 
   // Note: the empty deps array [] means
   // this useEffect will run once
@@ -112,6 +114,14 @@ function NewBoard(props){
     }
   }
 
+  const deleteAlertToggle = () => {
+    setDeleteAlert(!deleteAlert);
+  }
+
+  const onSuccessfulDelete = () => {
+    history.push("/myboards")
+  }
+
   return (
     <Grid container spacing={0} >
       <Grid item xs={12} style={{textAlign: "center", paddingTop: 16}}>
@@ -125,8 +135,9 @@ function NewBoard(props){
         <Button onClick={saveBoard} variant="contained" color="primary">Save Board</Button>
       </Grid>
       <Grid item xs={12} style={{textAlign: "center", marginTop:"24px", marginBottom:"24px"}}>
-        {props.edit ? <Button onClick={deleteB} variant="contained" color="secondary">DELETE Board</Button> : ""}
+        {props.edit ? <Button onClick={deleteAlertToggle} variant="contained" color="secondary">DELETE Board</Button> : ""}
       </Grid>
+      <DeleteAlert open={deleteAlert} onClose={deleteAlertToggle}  boardId={id} boardName={name} onSuccess={onSuccessfulDelete}/>
     </Grid>
   );
 }

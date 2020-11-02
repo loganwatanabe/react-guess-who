@@ -89,7 +89,7 @@ function FaceCardInput(props){
 
             <TextField label="Card Name" size="small" variant="outlined" 
             style={{marginTop: "6px"}}
-            inputProps={{autocomplete: "off"}}
+            inputProps={{autoComplete: "off"}}
             value={props.data.name} onChange={(e)=>nameChange(e)}/>
         </CardContent>
       </Card>

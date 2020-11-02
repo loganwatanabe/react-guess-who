@@ -30,7 +30,6 @@ function Header(props){
 
 
 	const toggleDrawer = (anchor, open) => (event) => {
-	console.log("close menu")
     if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
       return;
     }
@@ -42,7 +41,6 @@ function Header(props){
   	const loginIcon = () =>{
 
   		if(props.user){
-  			console.log(props.user)
   			return(
   				<IconButton
                 aria-label="account of current user"
@@ -74,9 +72,24 @@ function Header(props){
   	const leftDrawerContent = () => {
   			return(
   				<List>
-					<Link to={props.location.pathname+'/edit'}>
+					<Link to={'/how-to-play'} onClick={()=>{setState({ ...state, ['left']: false })}}>
 			    		<ListItem button>
-							<ListItemText primary="Edit" />
+							<ListItemText primary="How To Play" />
+						</ListItem>
+					</Link>
+					<Link to={'/about-us'} onClick={()=>{setState({ ...state, ['left']: false })}}>
+			    		<ListItem button>
+							<ListItemText primary="About Us" />
+						</ListItem>
+					</Link>
+					<Link to={'/privacy-policy'} onClick={()=>{setState({ ...state, ['left']: false })}}>
+			    		<ListItem button>
+							<ListItemText primary="Privacy Policy" />
+						</ListItem>
+					</Link>
+					<Link to={'/terms-of-use'} onClick={()=>{setState({ ...state, ['left']: false })}}>
+			    		<ListItem button>
+							<ListItemText primary="Terms Of Use" />
 						</ListItem>
 					</Link>
 				</List>
@@ -88,12 +101,12 @@ function Header(props){
   	  	if(props.user){
   			return(
   				<List>
-					<Link to={'/myboards'}>
+					<Link to={'/myboards'} onClick={()=>{setState({ ...state, ['right']: false })}}>
 			    		<ListItem button>
 							<ListItemText primary="My Boards" />
 						</ListItem>
 					</Link>
-					<Link to={'/myaccount'}>
+					<Link to={'/myaccount'} onClick={()=>{setState({ ...state, ['right']: false })}}>
 			    		<ListItem button>
 							<ListItemText primary="My Account" />
 						</ListItem>

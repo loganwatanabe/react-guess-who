@@ -63,19 +63,24 @@ export async function createABoard(boardData, callback){
 //
 
 //get a user's boards
-export async function getUsersBoards(callback){
-	let user = firebase.getCurrentUser()
+export async function getUsersBoards(user, callback){
+	console.log("get users boards")
+	// let user = await firebase.getCurrentUser()
+	console.log(user)
+
 	if(user){
+		console.log("user exists")
+		console.log(user)
 	    const uid = user.uid
 		
 		let usersBoards = await boardsRef.where("creator", "==", uid).get()
 		// usersBoards.forEach(x => console.log(x.data()))
 		let rez = []
-		usersBoards.forEach(x => { rez.push(x.data()) })
+		usersBoards.forEach(x => { rez.push({document_id: x.id, ...x.data()}) })
 		callback(rez)
 	}else{
 		console.log("error in getUserBoards")
-		callback(Error('getUsersBoards FAILED'))
+		callback([])
 	}
 }
 

@@ -92,8 +92,20 @@ const uiConfig = {
 
 	// We will display Google and Facebook as auth providers.
 	signInOptions: [
-		firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-		firebase.auth.FacebookAuthProvider.PROVIDER_ID,
+		{
+	      provider: firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+	      scopes: [
+	        'https://www.googleapis.com/auth/contacts.readonly'
+	      ]
+	    },
+		{
+			provider: firebase.auth.FacebookAuthProvider.PROVIDER_ID,
+	      	scopes: [
+		        'public_profile',
+		        'email',
+		        'user_friends'
+		    ]
+	    },
 		{
 	      provider: firebase.auth.EmailAuthProvider.PROVIDER_ID,
 	      requireDisplayName: false

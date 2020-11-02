@@ -7,6 +7,8 @@ import Header from './components/common/Header';
 import Boards from './components/boards/Boards';
 import Homepage from './components/Homepage';
 import Login from './components/account/Login';
+import MyBoards from './components/account/MyBoards';
+import MyAccount from './components/account/MyAccount';
 
 import firebase from './firebase/index'
 
@@ -29,6 +31,12 @@ function App() {
         <Switch>
           <Route path="/boards">
             <Boards/>
+          </Route>
+          <Route path="/myboards">
+            <MyBoards user={user}/>
+          </Route>
+          <Route path="/myaccount">
+            <MyAccount user={user}/>
           </Route>
           <Route exact path="/login">
             <Login user={user}/>

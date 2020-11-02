@@ -1,54 +1,48 @@
 import React, {useState, useEffect} from 'react';
 import {Link, useParams} from 'react-router-dom';
-import {List, ListItem, ListItemText, Button} from '@material-ui/core'
-import {homeBoards, getUsersBoards} from './api/api-server'
+import {List, ListItem, ListItemText, Button, Grid} from '@material-ui/core'
+import {homeBoards, getUsersBoards} from '../api/api-server'
+
+import LinkedAccounts from './LinkedAccounts'
 
 
 function MyAccount(props){
 
 	// const [error, setError] = useState(null);
 	// const [isLoaded, setIsLoaded] = useState(false);
-  const [boards, setBoards] = useState([]);
+  const [user, setUser] = useState([]);
 
 	// Note: the empty deps array [] means
 	// this useEffect will run oncea
 	// similar to componentDidMount()
   useEffect(() => {
-    homeBoards(data => {
-      console.log(data)
-      setBoards(data)
-    })
-    
-    }, [])
+      
+    }, [props.user])
 
 
-    const generateLinks = (boardsArray)=>{
-      if(!boardsArray){
-        return("loading")
-      }
-      return boardsArray.map(board => {
-        return(
-          <ListItem key={board.document_id}>
-          <Link to={'/boards/'+board.document_id}>
-            <ListItemText primary={board.name} />
-          </Link>
-        </ListItem>
-      )
-      })
-    }
+
+  const accountInfo = () => {
+    console.log(props.user)
+  }
+
 
   return (
-    <div>
-      EMULATOR
-      <List>
-        <ListItem>
-        <Link to={'/boards/new'}>
-          <Button>Create New Board</Button>
-        </Link>
-      </ListItem>
-        {generateLinks(boards)}
-      </List>
-    </div>
+    <Grid container spacing={0} >
+      <Grid item xs={12} style={{textAlign: "center", paddingTop: 16}}>
+        Your info: board #,
+      </Grid>
+      <Grid item xs={12} style={{textAlign: "center", paddingTop: 16}}>
+        Your Linked Accounts
+        
+        <LinkedAccounts user={props.user}/>
+      </Grid>
+      <Grid item xs={12} style={{textAlign: "center", paddingTop: 16}}>
+        Sign Out
+      </Grid>
+      <Grid item xs={12} style={{textAlign: "center", paddingTop: 16}}>
+        Option to delete account
+      </Grid>
+    </Grid>
   );
 }
 

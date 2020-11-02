@@ -23,32 +23,6 @@ function Homepage() {
     
   	}, [])
 
-  	const checkAuth = () => {
-  		// let user = firebase.firebase.auth().currentUser;
-  		let user = firebase.getCurrentUser();
-      console.log(user)
-  		// if(user){
-    //     getUsersBoards(data => {
-    //       console.log("users")
-    //       console.log(data)
-    //     })
-  		// 	return(
-  		// 		<div>
-  		// 			YOU'RE SIGNED IN
-  		// 			<br/>
-  		// 			{user.uid}
-  		// 			<br/>
-  		// 			<Button onClick={logout}>LOGOUT</Button>
-  		// 		</div>
-  		// 	)
-  		// }else{
-  		// 	return firebase.signin
-  		// }
-  	}
-
-  	const logout = () => {
-  		firebase.signout()
-  	}
 
   	const generateLinks = (boardsArray)=>{
   		if(!boardsArray){

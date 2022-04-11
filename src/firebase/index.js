@@ -41,6 +41,7 @@ const uiConfig = {
 	callbacks: {
 	    signInSuccessWithAuthResult: function(authResult, redirectUrl) {
 			// User successfully signed in.
+			console.log("boo")
 
 			// here, we will check if an account doc exists for the user, if not, create it
 			console.log(authResult)
@@ -54,7 +55,7 @@ const uiConfig = {
 				lastLogin: firebase.firestore.Timestamp.now()
 			}, { merge: true }).then(res => {
 				console.log(res)
-				return false
+				return true
 			})
 
 			
@@ -62,7 +63,7 @@ const uiConfig = {
 
 		    // Return type determines whether we continue the redirect automatically to /signedin
 		    // or whether we leave that to developer to handle.
-		    return false
+		    return true
 	    },
 	    uiShown: function() {
 	      // The widget is rendered.
@@ -88,7 +89,7 @@ const uiConfig = {
 	//privacyPolicyUrl
 
 	// Redirect to /signedIn after sign in is successful. Alternatively you can provide a callbacks.signInSuccess function.
-	signInSuccessUrl: '/signedIn',
+	signInSuccessUrl: '/myaccount',
 
 	// We will display Google and Facebook as auth providers.
 	signInOptions: [
@@ -120,16 +121,72 @@ const uiConfig = {
 let onAuthStateChanged = firebase.auth().onAuthStateChanged
 
 
-// firebase.auth().onAuthStateChanged(function(user) {
-//   if (user) {
-//     // User is signed in.
-//     // console.log(user)
-//     //user.uid
-//   } else {
-//     // No user is signed in.
-//     // console.log("no user")
-//   }
-// });
+let createNewUser = function(userObj, callback){
+	const name = userObj.name
+    const email = userObj.email
+    const password = userObj.password
+
+    if(name && email && password){
+		firebase.auth().createUserWithEmailAndPassword(email, password).then(function(response){
+	      // if(response.additionalUserInfo.isNewUser){
+	      	console.log("response")
+			console.log(response)
+
+	      if(response.user && response.additionalUserInfo.isNewUser){
+	      	//add display name to the user doc
+	      	response.user.updateProfile({displayName: name}).then(function(){
+		        response.user.sendEmailVerification().then(function(){
+			        // Email sent.
+
+			        //create account document, and set name
+			    	const newAccount = accountsRef.doc(response.user.uid).set({
+						lastLogin: firebase.firestore.Timestamp.now(),
+						name: name,
+						email: email
+					}, { merge: true }).then(res => {
+						console.log("account create success")
+						console.log(res)
+						callback()
+					})
+		        }).catch(function(error) {
+		          // An error happened.
+		          console.log("email verification failed")
+		          console.log(error)
+		        });
+	      	}).catch(function(error){
+	      		console.log('updateProfile failed')
+	      		console.log(error)
+	      	})
+	      }
+
+	    }).catch(function(error) {
+	      // Handle Errors here.
+	      var errorCode = error.code;
+	      var errorMessage = error.message;
+	      if (errorCode == 'auth/weak-password') {
+	        alert('The password is too weak.');
+	      } else {
+	        alert(errorMessage);
+	      }
+	      console.log(error);
+	    })
+	}else{
+		console.log("need name, email, and password")
+	}
+}
+
+let login = function(email, password, callback){
+
+	firebase.auth().signInWithEmailAndPassword(email,password).then(response => {
+		console.log("login success")
+		console.log(response)
+		callback(response)
+	}).catch(error => {
+		console.log("login error")
+		console.log(error)
+		callback(error)
+	})
+}
 
 let signin = <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()}/>
 let signout = function(callback){
@@ -144,6 +201,8 @@ let signout = function(callback){
 	}); 
 }
 
+let auth = firebase.auth()
+
 let checkAuth = function(setUser){
 	return firebase.auth().onAuthStateChanged((uzer) => { // detaching the listener
         if (uzer) {
@@ -157,8 +216,27 @@ let checkAuth = function(setUser){
     });
 }
 
+let resetPassword = function(email, callback){
+	if(email){//validate email address format here
+		firebase.auth().sendPasswordResetEmail(email).then(function(response) {
+		  // Email sent.
+		  console.log("pw reset success")
+		  console.log(response)
+		  callback(response)
+		}).catch(function(error) {
+		  // An error happened.
+		  console.log("pw reset error")
+		  console.log(error)
+		  callback(error)
+		});
+	}else{
+		callback(false)
+	}
+	
+}
+
 let getCurrentUser = function(){ return firebase.auth().currentUser }
 
 export default {
-  firebase, db, signin, getCurrentUser, signout, checkAuth
+  firebase, db, signin, getCurrentUser, signout, checkAuth, auth, createNewUser, login, resetPassword
 }

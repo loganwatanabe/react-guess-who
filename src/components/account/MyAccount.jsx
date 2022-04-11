@@ -10,7 +10,7 @@ function MyAccount(props){
 
 	// const [error, setError] = useState(null);
 	// const [isLoaded, setIsLoaded] = useState(false);
-  const [user, setUser] = useState([]);
+  const [user, setUser] = useState(null);
 
 	// Note: the empty deps array [] means
 	// this useEffect will run oncea
@@ -29,7 +29,13 @@ function MyAccount(props){
   return (
     <Grid container spacing={0} >
       <Grid item xs={12} style={{textAlign: "center", paddingTop: 16}}>
-        Your info: board #,
+        Your info:
+        <br/>
+        name: {props.user ? props.user.displayName : "loading"}
+        <br/>
+        email: {props.user ? props.user.email : "loading"}
+        <br/>
+        emailVerified: {props.user ? props.user.emailVerified ? "true" : "false" : "loading"}
       </Grid>
       <Grid item xs={12} style={{textAlign: "center", paddingTop: 16}}>
         Your Linked Accounts

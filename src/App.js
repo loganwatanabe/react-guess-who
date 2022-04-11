@@ -9,6 +9,9 @@ import Homepage from './components/Homepage';
 import Login from './components/account/Login';
 import MyBoards from './components/account/MyBoards';
 import MyAccount from './components/account/MyAccount';
+import SignUp from './components/account/SignUp';
+import SignIn from './components/account/SignIn';
+import NewUserLanding from './components/account/NewUserLanding';
 
 import firebase from './firebase/index'
 
@@ -37,6 +40,15 @@ function App() {
           </Route>
           <Route path="/myaccount">
             <MyAccount user={user}/>
+          </Route>
+          <Route path="/signup">
+            <SignUp user={user}/>
+          </Route>
+          <Route path="/new-user">
+            <NewUserLanding user={user}/>
+          </Route>
+          <Route path="/signin">
+            <SignIn user={user}/>
           </Route>
           <Route exact path="/login">
             <Login user={user}/>
